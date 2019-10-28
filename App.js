@@ -1,30 +1,79 @@
+
 import React, { Component } from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import { StyleSheet, Image, ScrollView,  View,  Text, } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
-export default class HelloWorldApp extends Component {
+
+const style = StyleSheet.create({
+  titulo: {
+    color: 'blue', 
+    fontWeight: 'bold', 
+    fontSize: 30, 
+    backgroundColor: 'powderblue', 
+  }, 
+  conteudo: {
+    color: 'red',
+    fontSize: 23, 
+    backgroundColor: 'skyblue', 
+  }, 
+  imagemPadrao: {
+    width: '100%', height: '30%'
+  }, 
+  
+  stretch: {
+    width: 50,
+    height: 200,
+    resizeMode: 'stretch'
+  }, 
+  
+})
+
+
+export default class JAD extends Component {
   render() {
+    let pic = {
+      uri: 'https://i.ytimg.com/vi/OYrKlTtFr1M/maxresdefault.jpg'
+    };
     return (
-      <View>
-        <Text>Hello World!!!</Text>
-      </View>
+
+        <ScrollView style={{ height: '100%' }}>
+        <View style={{ flex: 1, flexDirection: 'column',  alignItems: 'stretch'}}>
+        <Image resizeMode={'cover'} source={ pic} style={ style.imagemPadrao }/>
+          {/* <View style={{ height: 200, backgroundColor: '#E93E43'}} /> */}
+          <Text style={{ color: '#62625A', backgroundColor: '#f1f1f1', fontWeight: '600', justifyContent: 'center', height: 50, paddingTop: 5, fontSize: 25, paddingLeft: 20 }}>Jesus</Text>
+          <Text style={{ backgroundColor: '#fff', color: '#737C77', justifyContent: 'center',  padding: 25, fontSize: 18, letterSpacing: 1, lineHeight: 25, textAlign: 'justify' }}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standardLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </Text>
+          <View style={{ height: 50, backgroundColor: '#F5A942'}} />
+        </View>
+        </ScrollView>
+   
+      // <View> 
+      //     <Image source={ pic} style={ style.imagemPadrao }/>
+      //     <JesusTitulo jesus='Titulo'/>     
+      //     <JesusConteudo conteudo='Conteudo'/>     
+      // </View>
     )
   }
 }
+
+// class JesusTitulo extends Component {
+//   render() {
+//     return(
+//       <View>
+//         <Text style={style.titulo }>{this.props.jesus}</Text>
+//       </View>
+//     )
+//   }
+// }
+
+// class JesusConteudo extends Component {
+//   render() {
+//     return(
+//       <View>
+//         <Text style={ style.conteudo }>{this.props.conteudo}</Text>
+//       </View>
+//     )
+//   }
+// }
 
 
 // const App: () => React$Node = () => {
