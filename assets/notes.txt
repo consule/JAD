@@ -1,0 +1,3 @@
+Lista emuladores: emulator -list-avds
+emulator -avd avd_name
+emulator -avd Pixel_2_API_28
