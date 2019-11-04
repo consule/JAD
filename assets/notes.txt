@@ -1,3 +1,5 @@
 Lista emuladores: emulator -list-avds
 emulator -avd avd_name
 emulator -avd Pixel_2_API_28
+react-native run-android --no-jetifier
+./gradlew assembleRelease

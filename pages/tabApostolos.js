@@ -1,6 +1,8 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, Image, ScrollView, View, Text, } from 'react-native';
+import { Container, Header, Content, Accordion } from "native-base"
+import { StyleSheet, Image, ScrollView, View, Text, Linking, RefreshControl } from 'react-native';
+import { GetDadosApostolos, GetDadosGerais } from './services/ApostolosAPI';
 
 const styles = StyleSheet.create({
     slide: {
@@ -21,20 +23,55 @@ const styles = StyleSheet.create({
 })
 
 export default class TabTwo extends Component {
+    componentDidMount() {
+        this._getDados();
+        this._getDadosGerais();
+    }
+
+    state = {
+        dados: [],
+        dadosGerais: [],
+        refreshing: false
+    }
+
+    _getDados = async () => {
+        GetDadosApostolos().then(res => {
+            this.setState({ dados: res });
+        })
+    }
+
+    _getDadosGerais = async () => {
+        GetDadosGerais().then(res => {
+            this.setState({ dadosGerais: res });
+        })
+    }
+
+    onRefresh = async () => {
+        this.setState({ refreshing: true });
+        await this._getDados();
+        await this._getDadosGerais();
+        this.setState({ refreshing: false });
+    }
+
     render() {
         return (
-            <ScrollView>
-                <Image style={styles.slide} source={{ uri: "http://daniel.gardner.nom.br/wp-content/uploads/2017/12/facebook-Linked_Image___2013363_univ_lsr_xl.jpg" }} />
-                <Text style={styles.titulo} >Apóstolos</Text>
-                <Text style={styles.conteudo}>S the ViewPager component. On iOS a ScrollView with a single item can be used to allow the user to zoom content. Set up the maximumZoomScale and Full.{"\n"}{"\n"}
-                    On iOS a ScrollView with a single item can be used to allow the user to zoom content. Set up the maximumZoomScale and minimumZoomScale props and your user will be able to use pinch and expand gestures to zoom in and out.{"\n"}{"\n"}
-                    On iOS a ScrollView with a single item can be used to allow the user to zoom content. Set up the maximumZoomScale and minimumZoomScale props and your user will be able to use pinch and expand gestures to zoom in and out.
-
-                    The ScrollView works best to present a small amount of things of a limited size. All the elements and views of a ScrollView are rendered, even if they are not currently shown on the screen. If you have a long list of more items than can fit on the screen, you should use a FlatList instead. So let's learn about list views next.
-                </Text>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
+                }
+            >
+                <Image style={styles.slide} source={{ uri: this.state.dadosGerais.imagem }} />
+                <Text style={styles.titulo} >{this.state.dadosGerais.titulo} </Text>
+                <Content padder>
+                    <Accordion
+                        dataArray={this.state.dados}
+                        headerStyle={{ backgroundColor: "#b7daf8" }}
+                        contentStyle={{ backgroundColor: "#ddecf8" }}
+                    />
+                </Content>
                 <Text style={styles.conteudo} >Fonte:
-                    <Text style={styles.fonte} onPress={() => Linking.openURL('http://google.com')}> Google
-                </Text>
+                <Text style={styles.fonte} onPress={() => Linking.openURL(this.state.dadosGerais.linkDaFonte)}> {this.state.dadosGerais.fonte}
+                    </Text>
                 </Text>
             </ScrollView>
         )

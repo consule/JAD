@@ -1,6 +1,8 @@
 
 import React, { Component } from 'react';
-import { Container, Header, Content, Tab, Tabs, Body, Title, Text } from 'native-base';
+import { Container, Header, Tab, Tabs, Body, Text } from 'native-base';
+
+
 import TabJesus from './pages/tabJesus';
 import TabApostolos from './pages/tabApostolos';
 import TabDeus from './pages/tabDeus';
@@ -15,13 +17,13 @@ export default class JAD extends Component {
           </Body>
         </Header>
         <Tabs>
-          <Tab heading="Jesus">
+          <Tab heading="JESUS">
             <TabJesus />
           </Tab>
-          <Tab heading="Apóstolos">
+          <Tab heading="APÓSTOLOS">
             <TabApostolos />
           </Tab>
-          <Tab heading="Deus">
+          <Tab heading="DEUS">
             <TabDeus />
           </Tab>
         </Tabs>

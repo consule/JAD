@@ -1,6 +1,7 @@
-
 import React, { Component } from 'react';
-import { StyleSheet, Image, ScrollView, View, Text, } from 'react-native';
+import { StyleSheet, Image, ScrollView, View, Text, Linking, RefreshControl } from 'react-native';
+import { GetDados } from './services/DeusAPI';
+
 
 const styles = StyleSheet.create({
     slide: {
@@ -21,23 +22,41 @@ const styles = StyleSheet.create({
 })
 
 export default class TabOne extends Component {
-    render() {
-        let pic = {
-            uri: 'https://assetsnffrgf-a.akamaihd.net/assets/m/502012473/univ/art/502012473_univ_lsr_xl.jpg'
-        };
-        return (
-            <ScrollView>
-                <Image style={styles.slide} source={{ uri: "https://www.portalpadom.com.br/wp-content/uploads/2010/12/testemunhas-de-jeova-deus.jpg" }} />
-                <Text style={styles.titulo} >Deus</Text>
-                <Text style={styles.conteudo}>S the ViewPager component. On iOS a ScrollView with a single item can be used to allow the user to zoom content. Set up the maximumZoomScale and Full.{"\n"}{"\n"}
-                    On iOS a ScrollView with a single item can be used to allow the user to zoom content. Set up the maximumZoomScale and minimumZoomScale props and your user will be able to use pinch and expand gestures to zoom in and out.{"\n"}{"\n"}
-                    On iOS a ScrollView with a single item can be used to allow the user to zoom content. Set up the maximumZoomScale and minimumZoomScale props and your user will be able to use pinch and expand gestures to zoom in and out.
+    componentDidMount() {
+        this._getDados();
+    }
 
-                    The ScrollView works best to present a small amount of things of a limited size. All the elements and views of a ScrollView are rendered, even if they are not currently shown on the screen. If you have a long list of more items than can fit on the screen, you should use a FlatList instead. So let's learn about list views next.
-            </Text>
+    state = {
+        dados: [],
+        refreshing: false
+    }
+
+    _getDados = async () => {
+        GetDados().then(res => {
+            this.setState({ dados: res });
+        })
+    }
+
+    onRefresh = async () => {
+        this.setState({ refreshing: true });
+        await this._getDados();
+        this.setState({ refreshing: false });
+    }
+
+    render() {
+
+        return (
+            <ScrollView
+                refreshControl={
+                    <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
+                }
+            >
+                <Image style={styles.slide} source={{ uri: this.state.dados.imagem }} />
+                <Text style={styles.titulo} >{this.state.dados.titulo}</Text>
+                <Text style={styles.conteudo}>{this.state.dados.conteudo}</Text>
                 <Text style={styles.conteudo} >Fonte:
-                <Text style={styles.fonte} onPress={() => Linking.openURL('http://google.com')}> Google
-            </Text>
+                <Text style={styles.fonte} onPress={() => Linking.openURL(this.state.dados.linkDaFonte)}> {this.state.dados.fonte}
+                    </Text>
                 </Text>
             </ScrollView>
         )
